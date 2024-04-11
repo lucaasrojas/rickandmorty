@@ -9,10 +9,10 @@ export const getCharacters = async (url?: string) => {
 
 export const getCharacterById = async (id: Character["id"]) => {
 	return instance.get(`/character/${id}`).then(async (res) => {
-		const episodes = await axios.all(
+		const episodes: { data: Episode }[] = await axios.all(
 			res.data.episode.map((episodeLink: string) => axios.get(episodeLink))
 		);
-		res.data["episodes"] = episodes.map((el: { data: Episode }) => el.data);
+		res.data["episodes"] = episodes.map((el) => el.data);
 		return res.data;
 	});
 };

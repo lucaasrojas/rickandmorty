@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import CharacterCard, { Character } from "./CharacterCard";
 import { Episode } from "./EpisodeCard";
 
-const CharacterBoard = ({ title, onSelection }) => {
+interface CharacterBoard {
+	title: string;
+	onSelection: (episodes: Episode[]) => void;
+}
+
+const CharacterBoard: React.FC<CharacterBoard> = ({ title, onSelection }) => {
 	const [charactersList, setCharactersList] = useState<Character[]>([]);
 	const [selection, setSelection] = useState<number>();
 	const [pagination, setPagination] = useState<any>();
