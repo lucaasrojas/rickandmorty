@@ -1,7 +1,8 @@
 import { getCharacterById, getCharacters } from "@/app/api";
 import { useEffect, useState } from "react";
-import CharacterCard, { Character } from "./CharacterCard";
-import { Episode } from "./EpisodeCard";
+import CharacterCard, { Character } from "../CharacterCard";
+import { Episode } from "../EpisodeCard";
+import Pagination from "../Pagination/Pagination";
 
 interface CharacterBoard {
 	title: string;
@@ -23,6 +24,7 @@ const CharacterBoard: React.FC<CharacterBoard> = ({ title, onSelection }) => {
 			setCharactersList(res.data.results);
 		});
 	};
+
 	useEffect(() => {
 		getCharactersList();
 	}, []);
@@ -34,34 +36,29 @@ const CharacterBoard: React.FC<CharacterBoard> = ({ title, onSelection }) => {
 	};
 
 	return (
-		<div className="col-auto">
-			<h1 className="text-2xl">{title}</h1>
-			<button
-				className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-				disabled={!pagination?.prev}
-				onClick={() => getCharactersList(pagination?.prev.split("/api/")[1])}
-			>
-				Prev
-			</button>
-			{}
-			<button
-				className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-				disabled={!pagination?.next}
-				onClick={() => getCharactersList(pagination?.next.split("/api/")[1])}
-			>
-				Next
-			</button>
-			<div className="">
+		<div className="col-auto flex flex-col">
+			<h1 className="text-2xl" data-testid="character-board-title">{title}</h1>
+			<Pagination
+				isNextDisabled={!pagination?.next}
+				onNext={
+					() => getCharactersList(pagination?.next.split("/api/")[1])
+				}
+				isPrevDisabled={!pagination?.prev}
+				onPrev={() => getCharactersList(pagination?.prev.split("/api/")[1])}
+			/>
+
+			<div data-testid="list-container" className="max-h-80 min-h-80 overflow-y-scroll grid sm:grid-cols-1 lg:grid-cols-2 gap-4 ">
 				{charactersList.map((character) => (
-					<CharacterCard
-						onClick={() => handleSelectCharacter(character.id)}
-						isSelected={selection === character.id}
-						key={character.id}
-						name={character.name}
-						status={character.status}
-						species={character.species}
-						image={character.image}
-					/>
+					<div key={character.id} className="col-auto flex flex-col">
+						<CharacterCard
+							onClick={() => handleSelectCharacter(character.id)}
+							isSelected={selection === character.id}
+							name={character.name}
+							status={character.status}
+							species={character.species}
+							image={character.image}
+						/>
+					</div>
 				))}
 			</div>
 		</div>

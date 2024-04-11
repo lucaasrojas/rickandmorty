@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getCharacterById, getCharacters } from "./api";
-import CharacterCard, { Character } from "@/components/CharacterCard";
-import EpisodeCard, { Episode } from "@/components/EpisodeCard";
-import CharacterBoard from "@/components/CharacterBoard";
+import { Episode } from "@/components/EpisodeCard";
+import CharacterBoard from "@/components/CharacterBoard/CharacterBoard";
+import EpisodeBoard from "@/components/EpisodeBoard/EpisodeBoard";
 
 export default function Home() {
 	const [characterOneEpisodes, setCharacterOneEpisodes] = useState<Episode[]>(
@@ -15,19 +14,14 @@ export default function Home() {
 	const [sharedEpisodes, setSharedEpisodes] = useState<Episode[]>([]);
 
 	useEffect(() => {
-		characterOneEpisodes.forEach((episode) => {
-			let episodes: Episode[] = [];
-			if (characterTwoEpisodes.find((ep) => ep.name === episode.name)) {
-				episodes.push(episode);
-			}
-
+		const episodes = characterTwoEpisodes.filter(ep => Boolean(characterOneEpisodes.find(ep2 => ep2.id === ep.id))	)
 			setSharedEpisodes(episodes);
-		});
+		
 	}, [characterOneEpisodes, characterTwoEpisodes]);
 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-12">
-			<div className="grid grid-cols-2 gap-4">
+		<main className="flex flex-col items-center justify-between p-12">
+			<div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 flex max-h-full h-full w-full">
 				<CharacterBoard
 					title={"Character #1"}
 					onSelection={(episodes) => setCharacterOneEpisodes(episodes)}
@@ -37,52 +31,26 @@ export default function Home() {
 					onSelection={(episodes) => setCharacterTwoEpisodes(episodes)}
 				/>
 			</div>
-			<div className="grid grid-cols-3 gap-4">
-				<div className="col-auto justify-center flex-col">
-					<h1 className="lg:text-base xl:text-xl text-center">
-						Character #1 - Only episodes
-					</h1>
-					<div>
-						{characterOneEpisodes.map((episode) => (
-							<EpisodeCard
-								key={`epChar1-${episode.id}`}
-								name={episode.name}
-								episode={episode.episode}
-								air_date={episode.air_date}
-							/>
-						))}
-					</div>
+			<div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4 flex w-full">
+				<div className="col-auto justify-right flex-col flex max-h-100">
+					<EpisodeBoard 
+						episodes={characterOneEpisodes}
+						title="Character #1 - Only episodes"
+					/>
 				</div>
-				<div className="col-auto justify-center flex-col">
-					<h1 className="lg:text-base xl:text-xl text-center">
-						Character #1 & #2 - Shared episodes
-					</h1>
-
-					<div>
-						{sharedEpisodes.map((episode) => (
-							<EpisodeCard
-								key={`epCharShared-${episode.id}`}
-								name={episode.name}
-								episode={episode.episode}
-								air_date={episode.air_date}
-							/>
-						))}
-					</div>
+				<div className="col-auto justify-right flex-col flex max-h-100">
+				<EpisodeBoard 
+						episodes={sharedEpisodes}
+						title="Character #1 & #2 - Shared episodes"
+					/>
+					
 				</div>
-				<div className="col-auto justify-center flex-col">
-					<h1 className="lg:text-base xl:text-xl text-center">
-						Character #2 - Only episodes
-					</h1>
-					<div>
-						{characterTwoEpisodes.map((episode) => (
-							<EpisodeCard
-								key={`epChar2-${episode.id}`}
-								name={episode.name}
-								episode={episode.episode}
-								air_date={episode.air_date}
-							/>
-						))}
-					</div>
+				<div className="col-auto justify-right flex-col flex max-h-100">
+				<EpisodeBoard 
+						episodes={characterTwoEpisodes}
+						title="Character #2 - Only episodes"
+					/>
+					
 				</div>
 			</div>
 		</main>

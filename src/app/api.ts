@@ -9,6 +9,7 @@ export const getCharacters = async (url?: string) => {
 
 export const getCharacterById = async (id: Character["id"]) => {
 	return instance.get(`/character/${id}`).then(async (res) => {
+		console.log("res",res)
 		const episodes: { data: Episode }[] = await axios.all(
 			res.data.episode.map((episodeLink: string) => axios.get(episodeLink))
 		);
