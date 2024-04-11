@@ -18,7 +18,6 @@ const CharacterBoard: React.FC<CharacterBoard> = ({ title, onSelection }) => {
 		return characterInfo.episodes;
 	};
 	const getCharactersList = (url?: string) => {
-		console.log("URL", url);
 		getCharacters(url).then((res) => {
 			setPagination(res.data.info);
 			setCharactersList(res.data.results);

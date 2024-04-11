@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 export type Character = {
 	name: string;
 	status: string;
