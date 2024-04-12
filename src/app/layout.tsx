@@ -3,18 +3,18 @@ import "./globals.css";
 import { montserrat } from "./ui/fonts";
 
 export const metadata: Metadata = {
-  title: "Rick and Morty",
-  description: "Rick and Morty's characters finder",
+	title: "Rick and Morty",
+	description: "Rick and Morty's episodes finder",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={`${montserrat.className} antialised`}>{children}</body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={`${montserrat.className} antialised`}>{children}</body>
+		</html>
+	);
 }

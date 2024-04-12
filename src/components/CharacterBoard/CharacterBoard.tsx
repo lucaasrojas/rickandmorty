@@ -37,17 +37,22 @@ const CharacterBoard: React.FC<CharacterBoard> = ({ title, onSelection }) => {
 
 	return (
 		<div className="col-auto flex flex-col">
-			<h1 className="text-2xl" data-testid="character-board-title">{title}</h1>
+			<div className="flex bg-slate-100 bg-opacity-10 items-center p-2 rounded">
+				<h1 className="text-2xl" data-testid="character-board-title">
+					{title}
+				</h1>
+			</div>
 			<Pagination
 				isNextDisabled={!pagination?.next}
-				onNext={
-					() => getCharactersList(pagination?.next.split("/api/")[1])
-				}
+				onNext={() => getCharactersList(pagination?.next.split("/api/")[1])}
 				isPrevDisabled={!pagination?.prev}
 				onPrev={() => getCharactersList(pagination?.prev.split("/api/")[1])}
 			/>
 
-			<div data-testid="list-container" className="max-h-80 min-h-80 overflow-y-scroll grid sm:grid-cols-1 lg:grid-cols-2 gap-4 ">
+			<div
+				data-testid="list-container"
+				className="max-h-80 min-h-80 overflow-y-scroll grid sm:grid-cols-1 lg:grid-cols-2 gap-4 "
+			>
 				{charactersList.map((character) => (
 					<div key={character.id} className="col-auto flex flex-col">
 						<CharacterCard
