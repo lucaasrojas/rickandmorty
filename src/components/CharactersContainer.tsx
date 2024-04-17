@@ -10,7 +10,7 @@ const CharactersContainer: React.FC<CharactersContainer> = ({
 	onCharacterTwoSelection,
 }) => {
 	return (
-		<div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 flex max-h-full h-full w-full">
+		<div className="flex gap-4 h-full grow cols-auto grid sm:grid-cols-1 lg:grid-cols-2 gap-4 flex max-h-full h-full w-full">
 			<CharacterBoard
 				title={"Character #1"}
 				onSelection={(episodes) => onCharacterOneSelection(episodes)}

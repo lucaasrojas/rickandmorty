@@ -1,10 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Episode } from "@/components/EpisodeCard";
-import CharacterBoard from "@/components/CharacterBoard/CharacterBoard";
-import EpisodeBoard from "@/components/EpisodeBoard/EpisodeBoard";
-import LinkedInIcon from "./ui/LinkedInIcon";
-import GithubIcon from "./ui/GithubIcon";
 import Footer from "@/components/Footer";
 import EpisodesContainer from "@/components/EpisodesContainer";
 import CharactersContainer from "@/components/CharactersContainer";
@@ -26,7 +22,9 @@ export default function Home() {
 	}, [characterOneEpisodes, characterTwoEpisodes]);
 
 	return (
-		<main className="flex flex-col items-center justify-between px-12 pt-12 h-screen max-h-screen gap-2">
+		<main className="flex flex-col items-center justify-between min-h-screen h-full max-h-full">
+			<div className="p-12 h-full grow flex flex-col">
+
 			<CharactersContainer
 				onCharacterOneSelection={(episodes) =>
 					setCharacterOneEpisodes(episodes)
@@ -34,12 +32,13 @@ export default function Home() {
 				onCharacterTwoSelection={(episodes) =>
 					setCharacterTwoEpisodes(episodes)
 				}
-			/>
+				/>
 			<EpisodesContainer
 				sharedEpisodes={sharedEpisodes}
 				characterOneEpisodes={characterOneEpisodes}
 				characterTwoEpisodes={characterTwoEpisodes}
-			/>
+				/>
+				</div>
 			<Footer />
 		</main>
 	);
